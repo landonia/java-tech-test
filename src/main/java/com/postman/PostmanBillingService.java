@@ -17,15 +17,6 @@ import java.util.Set;
  */
 @AllArgsConstructor
 public class PostmanBillingService implements BillingService {
-
-    ///////////////////////////////////////////////
-    // TODO PART 2: ONLY ONE UNIQUE CREDIT CARD //
-    //////////////////////////////////////////////
-
-    ////////////////////////////////////////////////////////////
-    // TODO PART 3: PRINT OUT THE PAYMENT DETAILS WHEN BILLED //
-    ////////////////////////////////////////////////////////////
-
     private final BillingService billingService;
 
     public PostmanBillingService() {
