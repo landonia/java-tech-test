@@ -1,17 +1,21 @@
 package com.postman;
 
+import lombok.AllArgsConstructor;
 import net.ezpay.provider.EZPayPaymentProvider;
+import org.payments.billing.BillResult;
 import org.payments.billing.BillingService;
 import org.payments.billing.impl.BatchBillingService;
 import org.payments.customer.CustomerBillingDetails;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Just a bootstrap class that allows us to abstract the payment.
  *
  * @author Landon Wainwright
  */
+@AllArgsConstructor
 public class PostmanBillingService implements BillingService {
 
     ///////////////////////////////////////////////
@@ -27,16 +31,12 @@ public class PostmanBillingService implements BillingService {
     public PostmanBillingService() {
 
         // We will be using the EZPay provider
-        this.billingService = new BatchBillingService(new EZPayPaymentProvider());
+        this(new BatchBillingService(new EZPayPaymentProvider()));
     }
 
-    public PostmanBillingService(BillingService billingService) {
-        this.billingService = billingService;
-    }
-
-    public void bill(List<CustomerBillingDetails> billingDetails) {
+    public Set<BillResult> bill(List<CustomerBillingDetails> billingDetails) {
 
         // Bill for the product
-        billingService.bill(billingDetails);
+        return billingService.bill(billingDetails);
     }
 }

@@ -1,16 +1,18 @@
 package org.payments.billing.impl;
 
 import org.payments.PaymentProvider;
+import org.payments.billing.BillResult;
 import org.payments.billing.BillingService;
 import org.payments.customer.CustomerBillingDetails;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
+ * Simple billing service that uses an executor to batch billing requests.
+ *
  * @author Landon Wainwright
  */
 public class BatchBillingService implements BillingService {
@@ -48,20 +50,26 @@ public class BatchBillingService implements BillingService {
     }
 
     @Override
-    public void bill(List<CustomerBillingDetails> customers) {
-        List<Future<Boolean>> payments = new ArrayList<>();
+    public Set<BillResult> bill(List<CustomerBillingDetails> customers) {
+        Set<BillResult> result = new HashSet<>();
+        List<Future<BillResult>> payments = new ArrayList<>();
         for (CustomerBillingDetails customer : customers) {
             payments.add(executorService
-                    .submit(() -> paymentProvider.pay(customer.getCreditCardNumber(), customer.getServiceCost())));
+                    .submit(() -> BillResult.builder()
+                            .billingDetails(customer)
+                            .transaction(new Date())
+                            .success(paymentProvider.pay(customer.creditCardNumber(), customer.serviceCost()))
+                            .build()));
         }
 
         // Block until all the payments are complete
         payments.forEach(booleanFuture -> {
             try {
-                booleanFuture.get();
+                result.add(booleanFuture.get());
             } catch (Exception e) {
                 // Doh
             }
         });
+        return result;
     }
 }
