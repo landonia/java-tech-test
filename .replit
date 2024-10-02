@@ -1,6 +1,5 @@
 modules = ["java-graalvm22.3"]
 run = "mvn test -Dtest=PostmanBillingServiceTest#testBilling"
-entrypoint = "src/test/java/com/postman/PostmanBillingTest.java"
 hidden = ["**/*.class"]
 
 [packager]
@@ -17,35 +16,3 @@ start = "jdt-language-server"
 
 [unitTest]
 language = "java"
-
-[nix]
-channel = "stable-24_05"
-
-[debugger]
-support = true
-
-[debugger.compile]
-command = "javac -classpath .:/run_dir/junit-4.13.1.jar:target/* -g -d . $(find . -type f -name '*.java')"
-
-[debugger.interactive]
-transport = "localhost:0"
-connectTimeout = 60
-startCommand = "java-debug"
-
-[debugger.interactive.initializeMessage]
-command = "initialize"
-type = "request"
-
-[debugger.interactive.initializeMessage.arguments]
-adapterID = "cppdbg"
-clientID = "replit"
-clientName = "replit.com"
-columnsStartAt1 = true
-linesStartAt1 = true
-locale = "en-us"
-pathFormat = "path"
-supportsInvalidatedEvent = true
-supportsProgressReporting = true
-supportsRunInTerminalRequest = true
-supportsVariablePaging = true
-supportsVariableType = true
