@@ -2,4 +2,5 @@
 **/.gradle
 **/.idea
 **/docker/charts
+**/target
 .DS_store
