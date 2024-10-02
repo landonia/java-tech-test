@@ -1,0 +1,5 @@
+**/build
+**/.gradle
+**/.idea
+**/docker/charts
+.DS_store
