@@ -1,11 +1,11 @@
 package com.postman;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.payments.billing.BillResult;
 import org.payments.billing.BillingService;
 import org.payments.customer.CustomerBillingDetails;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +18,76 @@ import static org.junit.Assert.assertTrue;
  * @author Landon Wainwright
  */
 public class PostmanBillingServiceTest {
-    private static final Logger log = LoggerFactory.getLogger(PostmanBillingServiceTest.class);
+
+    @Before
+    public void before() {
+    }
+
+    @After
+    public void after() {
+    }
 
     @Test
-    public void testBilling() {
-        BillingService postmanBillingService = new PostmanBillingService();
-        log.info("Start Billing Cycle");
+    public void part1() {
 
         // Create the customers we want to bill
+        List<CustomerBillingDetails> billingDetails = getBillingDetails();
+
+        // Initiate the billing
+        BillingService postmanBillingService = new PostmanBillingService();
+        Set<BillResult> result = postmanBillingService.bill(billingDetails);
+
+        assertEquals(billingDetails.size(), result.size());
+        result.forEach(billResult -> assertTrue(billResult.success()));
+    }
+
+    @Test
+    public void part2() {
+
+        // Create the customers we want to bill
+        List<CustomerBillingDetails> billingDetails = getBillingDetails();
+
+        // START CANDIDATE TO MODIFY
+        BillingService postmanBillingService = new PostmanBillingService();
+        // END CANDIDATE TO MODIFY
+
+        Set<BillResult> result = postmanBillingService.bill(billingDetails);
+        assertEquals(billingDetails.size(), result.size());
+        result.forEach(billResult -> assertTrue(billResult.success()));
+    }
+
+    @Test
+    public void part3() {
+
+        // Create the customers we want to bill
+        List<CustomerBillingDetails> billingDetails = getBillingDetails();
+
+        // START CANDIDATE TO MODIFY
+        BillingService postmanBillingService = new PostmanBillingService();
+        // END CANDIDATE TO MODIFY
+
+        Set<BillResult> result = postmanBillingService.bill(billingDetails);
+
+        assertEquals(billingDetails.size(), result.size());
+        result.forEach(billResult -> assertTrue(billResult.success()));
+    }
+
+    @Test
+    public void part4() {
+
+        // Create the customers we want to bill
+        List<CustomerBillingDetails> billingDetails = getBillingDetails();
+
+        // START CANDIDATE TO MODIFY
+        BillingService postmanBillingService = new PostmanBillingService();
+        // END CANDIDATE TO MODIFY
+
+        Set<BillResult> result = postmanBillingService.bill(billingDetails);
+        assertEquals(billingDetails.size(), result.size());
+        result.forEach(billResult -> assertTrue(billResult.success()));
+    }
+
+    private List<CustomerBillingDetails> getBillingDetails() {
         List<CustomerBillingDetails> billingDetails = new ArrayList<>();
         billingDetails.add(CustomerBillingDetails.builder()
                 .customerName("OpenAI Inc").creditCardNumber("9876 9876 9876 9876").serviceCost(1250.00)
@@ -57,12 +119,6 @@ public class PostmanBillingServiceTest {
         billingDetails.add(CustomerBillingDetails.builder()
                 .customerName("Splunk Corp").creditCardNumber("4321 6789 4321 6789").serviceCost(1070.00)
                 .build());
-
-        // Initiate the billing
-        Set<BillResult> result = postmanBillingService.bill(billingDetails);
-        log.info("Finished Billing Cycle");
-
-        assertEquals(billingDetails.size(), result.size());
-        result.forEach(billResult -> assertTrue(billResult.success()));
+        return billingDetails;
     }
 }
