@@ -1,5 +1,5 @@
 modules = ["java-graalvm22.3"]
-run = "mvn test -Dtest=PostmanBillingServiceTest#testBilling"
+run = "mvn test"
 hidden = ["**/*.class"]
 
 [packager]
@@ -16,3 +16,9 @@ start = "jdt-language-server"
 
 [unitTest]
 language = "java"
+
+[deployment]
+run = ["sh", "-c", "mvn test"]
+
+[nix]
+channel = "stable-24_05"
