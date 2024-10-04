@@ -4,11 +4,24 @@ These are the notes to help the interview guide the candidate.
 
 **Only the code under _com.postman_ can be modified by the candidate - the other packages are simulating library code**
 
+
+## Setup
+
+I recommend using a service like replit.com for the interview as this will make collaboration much easier.
+
+In replit, you can create a new project using the Github project. You just have to login and select this repository.
+The `.replit` file is already present, so just accept the settings when it asks you for the run command etc.
+
+### Branching
+
+Create a new branch from master for the candidate using the branch naming `candidate/{name}` and at the end of the interview
+make sure that their code is committed.
+
 ### PART 1
 
 * How long is it taking to run the billing cycle?
 
-  * We are looking for them to add a basic timer to the _**PostmanBillingServiceTest**_ that will print the amount of time it takes to execute.
+  * We are looking for them to add a basic timer. They can do this by creating a new Billing service and wrapping the __PostmanBillingService__. The _bill()_ method should print the amount of time it takes to execute.
 
 * What is the maximum time you would expect the test to run for?
 

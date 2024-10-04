@@ -4,6 +4,7 @@ import com.postman.provider.part2.AuditingPaymentProvider;
 import com.postman.provider.part3.FixedEZPayProvider;
 import com.postman.provider.part4.MultiPlexPaymentProvider;
 import com.postman.provider.part4.SelectablePaymentProvider;
+import net.ezpay.provider.EZPayPaymentProvider;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +39,7 @@ public class PostmanBillingServiceTest {
         List<CustomerBillingDetails> billingDetails = getBillingDetails();
 
         // Initiate the billing
-        BillingService postmanBillingService = new PostmanBillingService();
+        BillingService postmanBillingService = new TimedBillingService(new PostmanBillingService());
         Set<BillResult> result = postmanBillingService.bill(billingDetails);
 
         assertEquals(billingDetails.size(), result.size());
@@ -52,7 +53,7 @@ public class PostmanBillingServiceTest {
         List<CustomerBillingDetails> billingDetails = getBillingDetails();
 
         // START CANDIDATE TO MODIFY
-        BillingService postmanBillingService = new PostmanBillingService();
+        BillingService postmanBillingService = new TimedBillingService(new PostmanBillingService(new AuditingPaymentProvider(new EZPayPaymentProvider())));
         // END CANDIDATE TO MODIFY
 
         Set<BillResult> result = postmanBillingService.bill(billingDetails);
@@ -67,7 +68,8 @@ public class PostmanBillingServiceTest {
         List<CustomerBillingDetails> billingDetails = getBillingDetails();
 
         // START CANDIDATE TO MODIFY
-        BillingService postmanBillingService = new PostmanBillingService();
+        AuditingPaymentProvider auditingFixedPaymentProvider = new AuditingPaymentProvider(new FixedEZPayProvider());
+        BillingService postmanBillingService = new TimedBillingService(new PostmanBillingService(auditingFixedPaymentProvider));
         // END CANDIDATE TO MODIFY
 
         Set<BillResult> result = postmanBillingService.bill(billingDetails);
@@ -83,7 +85,8 @@ public class PostmanBillingServiceTest {
         List<CustomerBillingDetails> billingDetails = getBillingDetails();
 
         // START CANDIDATE TO MODIFY
-        BillingService postmanBillingService = new PostmanBillingService();
+        AuditingPaymentProvider auditingFixedPaymentProvider = new AuditingPaymentProvider(new FixedEZPayProvider());
+        BillingService postmanBillingService = new TimedBillingService(new PostmanBillingService(new MultiPlexPaymentProvider(auditingFixedPaymentProvider, List.of(new SelectablePaymentProvider(auditingFixedPaymentProvider, s -> s.startsWith("1234"))))));
         // END CANDIDATE TO MODIFY
 
         Set<BillResult> result = postmanBillingService.bill(billingDetails);
@@ -124,71 +127,5 @@ public class PostmanBillingServiceTest {
                 .customerName("Splunk Corp").creditCardNumber("4321 6789 4321 6789").serviceCost(1070.00)
                 .build());
         return billingDetails;
-    }
-
-    @Test
-    public void testBilling() {
-
-        // PART 1
-//        BillingService postmanBillingService = new PostmanBillingService();
-
-        // PART 2
-//        BillingService postmanBillingService = new PostmanBillingService(new AuditingPaymentProvider(new EZPayPaymentProvider()));
-
-        // PART 3
-        AuditingPaymentProvider auditingFixedPaymentProvider = new AuditingPaymentProvider(new FixedEZPayProvider());
-//        BillingService postmanBillingService = new PostmanBillingService(auditingFixedPaymentProvider);
-
-        // PART 4
-        BillingService postmanBillingService = new PostmanBillingService(new MultiPlexPaymentProvider(auditingFixedPaymentProvider, List.of(new SelectablePaymentProvider(auditingFixedPaymentProvider, s -> s.startsWith("1234")))));
-
-        // Create the customers we want to bill
-        List<CustomerBillingDetails> billingDetails = new ArrayList<>();
-        billingDetails.add(CustomerBillingDetails.builder()
-                .customerName("OpenAI Inc").creditCardNumber("9876 9876 9876 9876").serviceCost(1250.00)
-                .build());
-        billingDetails.add(CustomerBillingDetails.builder()
-                .customerName("Google Inc (Dep A)").creditCardNumber("1234 1234 1234 1234").serviceCost(1500.80)
-                .build());
-        billingDetails.add(CustomerBillingDetails.builder()
-                .customerName("Google Inc (Dep B)").creditCardNumber("1234 1234 1234 1234").serviceCost(1200.10)
-                .build());
-        billingDetails.add(CustomerBillingDetails.builder()
-                .customerName("Yahoo Inc").creditCardNumber("2345 2345 2345 2345").serviceCost(1100.10)
-                .build());
-        billingDetails.add(CustomerBillingDetails.builder()
-                .customerName("Microsoft Inc").creditCardNumber("3456 3456 3456 3456").serviceCost(1999.40)
-                .build());
-        billingDetails.add(CustomerBillingDetails.builder()
-                .customerName("Adobe Inc").creditCardNumber("4567 4567 4567 4567").serviceCost(1499.40)
-                .build());
-        billingDetails.add(CustomerBillingDetails.builder()
-                .customerName("Meta Inc").creditCardNumber("5678 5678 5678 5678").serviceCost(1800.00)
-                .build());
-        billingDetails.add(CustomerBillingDetails.builder()
-                .customerName("Oracle Inc").creditCardNumber("6789 6789 6789 6789").serviceCost(2000.00)
-                .build());
-        billingDetails.add(CustomerBillingDetails.builder()
-                .customerName("Verizon Inc").creditCardNumber("4321 4321 4321 4321").serviceCost(1880.00)
-                .build());
-        billingDetails.add(CustomerBillingDetails.builder()
-                .customerName("Splunk Corp").creditCardNumber("4321 6789 4321 6789").serviceCost(1070.00)
-                .build());
-
-        log.info("Start Billing Cycle");
-
-        // PART 1
-        long start = System.currentTimeMillis();
-
-        // Initiate the billing
-        Set<BillResult> result = postmanBillingService.bill(billingDetails);
-        log.info("Finished Billing Cycle");
-
-        // PART 1
-        long total = System.currentTimeMillis() - start;
-        System.out.printf("Execution took %ds %dms%n", total / 1000, total % 1000);
-
-        assertEquals(billingDetails.size(), result.size());
-        result.forEach(billResult -> assertTrue(billResult.success()));
     }
 }
