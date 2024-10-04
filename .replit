@@ -16,3 +16,9 @@ start = "jdt-language-server"
 
 [unitTest]
 language = "java"
+
+[deployment]
+run = ["sh", "-c", "mvn test -Dtest=PostmanBillingServiceTest#testBilling"]
+
+[nix]
+channel = "stable-24_05"
