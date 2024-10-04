@@ -2,8 +2,8 @@ package com.postman;
 
 import com.postman.provider.part2.AuditingPaymentProvider;
 import com.postman.provider.part3.FixedEZPayProvider;
-import com.postman.provider.part4.SelectablePaymentProvider;
 import com.postman.provider.part4.MultiPlexPaymentProvider;
+import com.postman.provider.part4.SelectablePaymentProvider;
 import org.junit.Test;
 import org.payments.billing.BillResult;
 import org.payments.billing.BillingService;
@@ -27,15 +27,18 @@ public class PostmanBillingServiceTest {
     @Test
     public void testBilling() {
 
-        // PART 1+2
+        // PART 1
 //        BillingService postmanBillingService = new PostmanBillingService();
 
+        // PART 2
+//        BillingService postmanBillingService = new PostmanBillingService(new AuditingPaymentProvider(new EZPayPaymentProvider()));
+
         // PART 3
-        AuditingPaymentProvider auditingPaymentProvider = new AuditingPaymentProvider(new FixedEZPayProvider());
-//        BillingService postmanBillingService = new PostmanBillingService(new AuditingPaymentProvider(new FixedEZPayProvider()));
+        AuditingPaymentProvider auditingFixedPaymentProvider = new AuditingPaymentProvider(new FixedEZPayProvider());
+//        BillingService postmanBillingService = new PostmanBillingService(auditingFixedPaymentProvider);
 
         // PART 4
-        BillingService postmanBillingService = new PostmanBillingService(new MultiPlexPaymentProvider(auditingPaymentProvider, List.of(new SelectablePaymentProvider(auditingPaymentProvider, s -> s.startsWith("1234")))));
+        BillingService postmanBillingService = new PostmanBillingService(new MultiPlexPaymentProvider(auditingFixedPaymentProvider, List.of(new SelectablePaymentProvider(auditingFixedPaymentProvider, s -> s.startsWith("1234")))));
 
         // Create the customers we want to bill
         List<CustomerBillingDetails> billingDetails = new ArrayList<>();
