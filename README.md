@@ -12,8 +12,8 @@ PART 1
   * How can we fix this?
 
 PART 2
-* We want an audit log when a card is billed. This should print out the credit card number and the amount. 
-  * We can *only modify* the code under com.postman.*
+* We want an audit log when a customer is billed. This should print out the credit card number and the amount before the payment and then confirm when the payment has been taken including the time taken.
+    * We can *only modify* the code under com.postman.*
 
 PART 3
 * There is an issue with the current EZPayProvider is incorrect. They were trying to ensure that only one unique credit card can be billed at the same time. 
