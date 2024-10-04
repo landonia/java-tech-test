@@ -32,6 +32,7 @@ public class PostmanBillingService implements BillingService {
     }
 
     public PostmanBillingService(BillingService billingService) {
+        assert billingService != null;
         this.billingService = billingService;
     }
 

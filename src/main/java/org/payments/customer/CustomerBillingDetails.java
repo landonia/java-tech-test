@@ -29,6 +29,9 @@ public record CustomerBillingDetails(String customerName, String creditCardNumbe
         }
 
         public CustomerBillingDetails build() {
+            assert customerName != null;
+            assert creditCardNumber != null;
+            assert serviceCost != null;
             return new CustomerBillingDetails(customerName, creditCardNumber, serviceCost);
         }
     }
