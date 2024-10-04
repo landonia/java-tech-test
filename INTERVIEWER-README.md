@@ -4,7 +4,7 @@ These are the notes to help the interview guide the candidate.
 
 **Only the code under _com.postman_ can be modified by the candidate - the other packages are simulating library code**
 
-_PART 1_
+### PART 1
 
 * How long is it taking to run the billing cycle?
 
@@ -32,7 +32,7 @@ _PART 1_
 
 ***
 
-PART 2
+### PART 2
 * We want an audit log when a customer is billed. This should print out the customers name, credit card number and the amount. 
   * We can *only modify* the code under com.postman.*
   
@@ -43,7 +43,7 @@ PART 2
 
 ***
 
-PART 3
+### PART 3
 This follows on from PART 1 when they identified the synchronize block. Explain to the candidate that EZPay were trying to ensure that only one unique credit card can be billed at the same time but instead only allowed one credit card to be billed at the same time. 
 
   * Create a new provider that will ensure that makes sure that only the same credit card cannot be billed multiple times at the same time.
@@ -56,7 +56,7 @@ This follows on from PART 1 when they identified the synchronize block. Explain 
 
 ***
 
-PART 4
+### PART 4
 So if they breezed through the first parts, this is an extension to fill the time. A bit more advanced.
 
 * We want to be able to use different payment providers based on the card. Create a payment provider that can determine what actual provider to use based on the card number.

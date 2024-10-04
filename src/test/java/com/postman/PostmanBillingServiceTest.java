@@ -1,5 +1,9 @@
 package com.postman;
 
+import com.postman.provider.part2.AuditingPaymentProvider;
+import com.postman.provider.part3.FixedEZPayProvider;
+import com.postman.provider.part4.SelectablePaymentProvider;
+import com.postman.provider.part4.MultiPlexPaymentProvider;
 import org.junit.Test;
 import org.payments.billing.BillResult;
 import org.payments.billing.BillingService;
@@ -22,11 +26,16 @@ public class PostmanBillingServiceTest {
 
     @Test
     public void testBilling() {
-        BillingService postmanBillingService = new PostmanBillingService();
-        log.info("Start Billing Cycle");
 
-        // PART 1
-        long start = System.currentTimeMillis();
+        // PART 1+2
+//        BillingService postmanBillingService = new PostmanBillingService();
+
+        // PART 3
+        AuditingPaymentProvider auditingPaymentProvider = new AuditingPaymentProvider(new FixedEZPayProvider());
+//        BillingService postmanBillingService = new PostmanBillingService(new AuditingPaymentProvider(new FixedEZPayProvider()));
+
+        // PART 4
+        BillingService postmanBillingService = new PostmanBillingService(new MultiPlexPaymentProvider(auditingPaymentProvider, List.of(new SelectablePaymentProvider(auditingPaymentProvider, s -> s.startsWith("1234")))));
 
         // Create the customers we want to bill
         List<CustomerBillingDetails> billingDetails = new ArrayList<>();
@@ -61,13 +70,18 @@ public class PostmanBillingServiceTest {
                 .customerName("Splunk Corp").creditCardNumber("4321 6789 4321 6789").serviceCost(1070.00)
                 .build());
 
+        log.info("Start Billing Cycle");
+
+        // PART 1
+        long start = System.currentTimeMillis();
+
         // Initiate the billing
         Set<BillResult> result = postmanBillingService.bill(billingDetails);
         log.info("Finished Billing Cycle");
 
         // PART 1
         long total = System.currentTimeMillis() - start;
-        System.out.printf("Execution took %ds %dms%n", total/1000, total%1000);
+        System.out.printf("Execution took %ds %dms%n", total / 1000, total % 1000);
 
         assertEquals(billingDetails.size(), result.size());
         result.forEach(billResult -> assertTrue(billResult.success()));

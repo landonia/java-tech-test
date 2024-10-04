@@ -1,7 +1,8 @@
 package com.postman;
 
-import com.postman.provider.AuditingPaymentProvider;
+import com.postman.provider.part2.AuditingPaymentProvider;
 import net.ezpay.provider.EZPayPaymentProvider;
+import org.payments.PaymentProvider;
 import org.payments.billing.BillResult;
 import org.payments.billing.BillingService;
 import org.payments.billing.impl.BatchBillingService;
@@ -21,7 +22,13 @@ public class PostmanBillingService implements BillingService {
     public PostmanBillingService() {
 
         // We will be using the EZPay provider
-        this(new BatchBillingService(new AuditingPaymentProvider(new EZPayPaymentProvider())));
+        this(new AuditingPaymentProvider(new EZPayPaymentProvider()));
+    }
+
+    public PostmanBillingService(PaymentProvider paymentProvider) {
+
+        // We will be using the EZPay provider
+        this(new BatchBillingService(paymentProvider));
     }
 
     public PostmanBillingService(BillingService billingService) {
