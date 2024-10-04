@@ -17,7 +17,7 @@ PART 2
 
 PART 3
 * There is an issue with the current EZPayProvider is incorrect. They were trying to ensure that only one unique credit card can be billed at the same time. 
-  * Create a new provider that will ensure that makes sure that only the same credit card cannot be billed multiple times at the same time.
+  * Create a new provider that ensures that the same credit card cannot be billed concurrently (I.e. the same credit card should be billed synchronously).
 
 PART 4
 * We want to be able to use different payment providers based on the card. Create a payment provider that can determine what actual provider to use based on the card number.
