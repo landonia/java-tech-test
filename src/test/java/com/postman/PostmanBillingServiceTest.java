@@ -21,6 +21,9 @@ public class PostmanBillingServiceTest {
         BillingService postmanBillingService = new PostmanBillingService();
         System.out.println("Start Billing Cycle");
 
+        // PART 1
+        long start = System.currentTimeMillis();
+
         // Create the customers we want to bill
         List<CustomerBillingDetails> billingDetails = new ArrayList<>();
         billingDetails.add(CustomerBillingDetails.builder()
@@ -57,6 +60,10 @@ public class PostmanBillingServiceTest {
         // Initiate the billing
         Set<BillResult> result = postmanBillingService.bill(billingDetails);
         System.out.println("Finished Billing Cycle");
+
+        // PART 1
+        long total = System.currentTimeMillis() - start;
+        System.out.printf("Execution took %ds %dms%n", total/1000, total%1000);
 
         assertEquals(billingDetails.size(), result.size());
         result.forEach(billResult -> assertTrue(billResult.success()));

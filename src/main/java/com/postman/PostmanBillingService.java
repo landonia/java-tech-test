@@ -1,5 +1,6 @@
 package com.postman;
 
+import com.postman.provider.AuditingPaymentProvider;
 import lombok.AllArgsConstructor;
 import net.ezpay.provider.EZPayPaymentProvider;
 import org.payments.billing.BillResult;
@@ -22,7 +23,7 @@ public class PostmanBillingService implements BillingService {
     public PostmanBillingService() {
 
         // We will be using the EZPay provider
-        this(new BatchBillingService(new EZPayPaymentProvider()));
+        this(new BatchBillingService(new AuditingPaymentProvider(new EZPayPaymentProvider())));
     }
 
     public Set<BillResult> bill(List<CustomerBillingDetails> billingDetails) {
