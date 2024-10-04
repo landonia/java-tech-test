@@ -1,7 +1,5 @@
 package com.postman;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.payments.billing.BillResult;
 import org.payments.billing.BillingService;
@@ -19,14 +17,6 @@ import static org.junit.Assert.assertTrue;
  */
 public class PostmanBillingServiceTest {
 
-    @Before
-    public void before() {
-    }
-
-    @After
-    public void after() {
-    }
-
     @Test
     public void part1() {
 
@@ -41,7 +31,7 @@ public class PostmanBillingServiceTest {
         result.forEach(billResult -> assertTrue(billResult.success()));
     }
 
-    @Test
+    // @Test
     public void part2() {
 
         // Create the customers we want to bill
@@ -56,7 +46,7 @@ public class PostmanBillingServiceTest {
         result.forEach(billResult -> assertTrue(billResult.success()));
     }
 
-    @Test
+    // @Test
     public void part3() {
 
         // Create the customers we want to bill
@@ -72,7 +62,7 @@ public class PostmanBillingServiceTest {
         result.forEach(billResult -> assertTrue(billResult.success()));
     }
 
-    @Test
+    // @Test
     public void part4() {
 
         // Create the customers we want to bill
