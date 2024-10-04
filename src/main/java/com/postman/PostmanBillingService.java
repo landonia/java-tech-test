@@ -6,6 +6,8 @@ import org.payments.billing.BillResult;
 import org.payments.billing.BillingService;
 import org.payments.billing.impl.BatchBillingService;
 import org.payments.customer.CustomerBillingDetails;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Set;
@@ -16,6 +18,7 @@ import java.util.Set;
  * @author Landon Wainwright
  */
 public class PostmanBillingService implements BillingService {
+    private static final Logger log = LoggerFactory.getLogger(PostmanBillingService.class);
     private final BillingService billingService;
 
     public PostmanBillingService() {
@@ -36,8 +39,11 @@ public class PostmanBillingService implements BillingService {
     }
 
     public Set<BillResult> bill(List<CustomerBillingDetails> billingDetails) {
+        log.info("Start Billing Cycle");
 
         // Bill for the product
-        return billingService.bill(billingDetails);
+        Set<BillResult> result = billingService.bill(billingDetails);
+        log.info("Finished Billing Cycle");
+        return result;
     }
 }
