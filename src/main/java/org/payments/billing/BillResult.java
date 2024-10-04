@@ -32,6 +32,8 @@ public record BillResult(CustomerBillingDetails billingDetails, boolean success,
         }
 
         public BillResult build() {
+            assert billingDetails != null;
+            assert transaction != null;
             return new BillResult(billingDetails, success, transaction);
         }
     }

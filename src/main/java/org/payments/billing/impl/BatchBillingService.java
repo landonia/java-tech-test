@@ -45,6 +45,8 @@ public class BatchBillingService implements BillingService {
      *                        time
      */
     public BatchBillingService(PaymentProvider paymentProvider, int poolSize) {
+        assert paymentProvider != null;
+        assert poolSize > 0;
         this.paymentProvider = paymentProvider;
         this.executorService = Executors.newFixedThreadPool(poolSize);
     }
