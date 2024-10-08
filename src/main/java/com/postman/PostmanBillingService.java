@@ -29,7 +29,7 @@ public class PostmanBillingService implements BillingService {
 
     public PostmanBillingService(PaymentProvider paymentProvider) {
 
-        // We will be using the EZPay provider
+        // We will be using the Batch Billing provider
         this(new BatchBillingService(paymentProvider));
     }
 

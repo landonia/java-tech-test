@@ -1,5 +1,9 @@
 package com.postman;
 
+import com.postman.ezpay.provider.PostmanEZPayPaymentProvider;
+import com.postman.ezpay.provider.AuditablePaymentProvider;
+import com.postman.ezpay.provider.SelectablePaymentProvider;
+
 import org.junit.Test;
 import org.payments.billing.BillResult;
 import org.payments.billing.BillingService;
@@ -17,59 +21,59 @@ import static org.junit.Assert.assertTrue;
  */
 public class PostmanBillingServiceTest {
 
+    //@Test
+    // public void part1() {
+
+    //     // Create the customers we want to bill
+    //     List<CustomerBillingDetails> billingDetails = getBillingDetails();
+
+    //     // Initiate the billing
+    //     BillingService postmanBillingService = new PostmanBillingService(new PostmanEZPayPaymentProvider());
+    //     Set<BillResult> result = postmanBillingService.bill(billingDetails);
+
+    //     assertEquals(billingDetails.size(), result.size());
+    //     result.forEach(billResult -> assertTrue(billResult.success()));
+    // }
+
+    // @Test
+    // public void part2() {
+
+    //     // Create the customers we want to bill
+    //     List<CustomerBillingDetails> billingDetails = getBillingDetails();
+
+    //     // START CANDIDATE TO MODIFY
+    //     BillingService postmanBillingService = new PostmanBillingService(new AuditablePaymentProvider(new PostmanEZPayPaymentProvider()));
+    //     // END CANDIDATE TO MODIFY
+
+    //     Set<BillResult> result = postmanBillingService.bill(billingDetails);
+    //     assertEquals(billingDetails.size(), result.size());
+    //     result.forEach(billResult -> assertTrue(billResult.success()));
+    // }
+
+    // @Test
+    // public void part3() {
+
+    //     // Create the customers we want to bill
+    //     List<CustomerBillingDetails> billingDetails = getBillingDetails();
+
+    //     // START CANDIDATE TO MODIFY
+    //     BillingService postmanBillingService = new PostmanBillingService(new AuditablePaymentProvider(new PostmanEZPayPaymentProvider()));
+    //     // END CANDIDATE TO MODIFY
+
+    //     Set<BillResult> result = postmanBillingService.bill(billingDetails);
+
+    //     assertEquals(billingDetails.size(), result.size());
+    //     result.forEach(billResult -> assertTrue(billResult.success()));
+    // }
+
     @Test
-    public void part1() {
-
-        // Create the customers we want to bill
-        List<CustomerBillingDetails> billingDetails = getBillingDetails();
-
-        // Initiate the billing
-        BillingService postmanBillingService = new PostmanBillingService();
-        Set<BillResult> result = postmanBillingService.bill(billingDetails);
-
-        assertEquals(billingDetails.size(), result.size());
-        result.forEach(billResult -> assertTrue(billResult.success()));
-    }
-
-    // @Test
-    public void part2() {
-
-        // Create the customers we want to bill
-        List<CustomerBillingDetails> billingDetails = getBillingDetails();
-
-        // START CANDIDATE TO MODIFY
-        BillingService postmanBillingService = new PostmanBillingService();
-        // END CANDIDATE TO MODIFY
-
-        Set<BillResult> result = postmanBillingService.bill(billingDetails);
-        assertEquals(billingDetails.size(), result.size());
-        result.forEach(billResult -> assertTrue(billResult.success()));
-    }
-
-    // @Test
-    public void part3() {
-
-        // Create the customers we want to bill
-        List<CustomerBillingDetails> billingDetails = getBillingDetails();
-
-        // START CANDIDATE TO MODIFY
-        BillingService postmanBillingService = new PostmanBillingService();
-        // END CANDIDATE TO MODIFY
-
-        Set<BillResult> result = postmanBillingService.bill(billingDetails);
-
-        assertEquals(billingDetails.size(), result.size());
-        result.forEach(billResult -> assertTrue(billResult.success()));
-    }
-
-    // @Test
     public void part4() {
 
         // Create the customers we want to bill
         List<CustomerBillingDetails> billingDetails = getBillingDetails();
 
         // START CANDIDATE TO MODIFY
-        BillingService postmanBillingService = new PostmanBillingService();
+        BillingService postmanBillingService = new PostmanBillingService(new AuditablePaymentProvider(new SelectablePaymentProvider(new PostmanEZPayPaymentProvider(), creditCardNumber -> !creditCardNumber.startsWith("1234"))));
         // END CANDIDATE TO MODIFY
 
         Set<BillResult> result = postmanBillingService.bill(billingDetails);

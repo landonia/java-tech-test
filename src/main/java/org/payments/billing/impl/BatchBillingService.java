@@ -51,6 +51,8 @@ public class BatchBillingService implements BillingService {
         this.executorService = Executors.newFixedThreadPool(poolSize);
     }
 
+    // 3 customers at a time, 3 seconds max per customer
+    // n customers / 3 customer at a time * 3 seconds max --> n seconds
     @Override
     public Set<BillResult> bill(List<CustomerBillingDetails> customers) {
         Set<BillResult> result = new HashSet<>();
